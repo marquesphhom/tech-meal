@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
 import { TechnicalSheet } from "./TechnicalSheet";
 
-@Entity()
+@Entity('products')
 export class Product {
   @PrimaryGeneratedColumn("uuid")
   id: string;

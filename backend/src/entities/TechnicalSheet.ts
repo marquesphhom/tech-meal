@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, JoinColumn
 import { Product } from "./Product";
 import { TechnicalSheetItem } from "./TechnicalSheetItem";
 
-@Entity()
+@Entity('technical_sheets')
 export class TechnicalSheet {
   @PrimaryGeneratedColumn("uuid")
   id: string;

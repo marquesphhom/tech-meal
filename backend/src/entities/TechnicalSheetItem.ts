@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { TechnicalSheet } from "./TechnicalSheet";
 import { Ingredient } from "./Ingredient";
 
-@Entity()
+@Entity('technical_sheet_items')
 export class TechnicalSheetItem {
   @PrimaryGeneratedColumn("uuid")
   id: string;
