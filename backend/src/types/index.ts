@@ -7,16 +7,31 @@ export interface Product {
   technicalSheet?: TechnicalSheet;
 }
 
-export interface TechnicalSheet {
-  productId: string;
-  ingredients: Ingredient[];
-  observations: string;
+export interface Ingredient {
+  id: string;
+  name: string;
+  unit: string;
+  cost: number;
+  groupLevel1: string;
+  groupLevel2: string;
+  groupLevel3: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface Ingredient {
+export interface TechnicalSheet {
+  id: string;
+  productId: string;
   name: string;
-  quantity: string;
-  cost: number;
+  ingredients: TechnicalSheetItem[];
+  observations: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TechnicalSheetItem {
+  ingredientId: string;
+  quantity: number;
 }
 
 export interface Reservation {

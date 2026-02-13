@@ -1,20 +1,52 @@
 import { Product, Reservation, Table, User } from '../types';
 
+export let ingredients: Ingredient[] = [
+  {
+    id: '1',
+    name: 'Carne Moída Bov.',
+    unit: 'kg',
+    cost: 45.0,
+    groupLevel1: 'ALIMENTAR',
+    groupLevel2: 'PROTEINA',
+    groupLevel3: 'BOVINA',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: '2',
+    name: 'Pão de Hambúrguer',
+    unit: 'un',
+    cost: 1.2,
+    groupLevel1: 'ALIMENTAR',
+    groupLevel2: 'PADARIA',
+    groupLevel3: 'PAES',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+];
+
+export let technicalSheets: TechnicalSheet[] = [
+  {
+    id: '1',
+    productId: '1',
+    name: 'Burger Gourmet - Tradicional',
+    ingredients: [
+      { ingredientId: '1', quantity: 0.18 },
+      { ingredientId: '2', quantity: 1 }
+    ],
+    observations: 'Padrão da casa',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+];
+
 export let products: Product[] = [
   {
     id: '1',
     name: 'Burger Gourmet',
     description: 'Pão brioche, blend 180g, queijo cheddar, bacon caramelizado.',
     price: 35.0,
-    category: 'Main Course',
-    technicalSheet: {
-      productId: '1',
-      ingredients: [
-        { name: 'Pão brioche', quantity: '1 un', cost: 1.5 },
-        { name: 'Carne', quantity: '180g', cost: 8.0 },
-      ],
-      observations: 'Servir mal passado se solicitado.'
-    }
+    category: 'Main Course'
   },
   {
     id: '2',

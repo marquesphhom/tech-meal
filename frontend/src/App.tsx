@@ -6,6 +6,8 @@ import { Buffet } from './pages/public/Buffet';
 import { Login } from './pages/admin/Login';
 import { Dashboard } from './pages/admin/Dashboard';
 import { AdminProducts } from './pages/admin/Products';
+import { AdminIngredients } from './pages/admin/Ingredients';
+import { AdminTechnicalSheets } from './pages/admin/TechnicalSheets';
 import { AdminReservations } from './pages/admin/Reservations';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
@@ -41,6 +43,16 @@ function App() {
             <Route path="/admin/products" element={
               <ProtectedRoute>
                 <AdminProducts />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/ingredients" element={
+              <ProtectedRoute>
+                <AdminIngredients />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/technical-sheets" element={
+              <ProtectedRoute>
+                <AdminTechnicalSheets />
               </ProtectedRoute>
             } />
             <Route path="/admin/reservations" element={

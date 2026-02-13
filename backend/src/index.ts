@@ -5,6 +5,8 @@ import authRoutes from './routes/auth.routes';
 import productRoutes from './routes/product.routes';
 import reservationRoutes from './routes/reservation.routes';
 import tableRoutes from './routes/table.routes';
+import ingredientRoutes from './routes/ingredient.routes';
+import technicalSheetRoutes from './routes/technicalSheet.routes';
 
 dotenv.config();
 
@@ -23,6 +25,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/reservations', reservationRoutes);
 app.use('/api/tables', tableRoutes);
+app.use('/api/ingredients', ingredientRoutes);
+app.use('/api/technical-sheets', technicalSheetRoutes);
 
 app.get('/', (req, res) => {
   res.send('Tech Meal API is running');
