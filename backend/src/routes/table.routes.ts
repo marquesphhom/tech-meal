@@ -1,34 +1,50 @@
 import { Router } from 'express';
-import { tables } from '../data/mockData';
+import * as tableService from '../services/table.service';
 import { authMiddleware } from '../middlewares/auth';
 
 const router = Router();
 
 // Public: Get available tables
-router.get('/available', (req, res) => {
-  res.json(tables.filter(t => t.isAvailable));
+router.get('/available', async (req, res) => {
+  try {
+    const tables = await tableService.getAllTables();
+    res.json(tables.filter(t => t.isAvailable));
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching tables' });
+  }
 });
 
 // Admin: CRUD
-router.get('/', authMiddleware, (req, res) => {
-  res.json(tables);
+router.get('/', authMiddleware, async (req, res) => {
+  try {
+    const tables = await tableService.getAllTables();
+    res.json(tables);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching tables' });
+  }
 });
 
-router.post('/', authMiddleware, (req, res) => {
-  const newTable = { ...req.body };
-  tables.push(newTable);
-  res.status(201).json(newTable);
+router.post('/', authMiddleware, async (req, res) => {
+  try {
+    const newTable = await tableService.createTable(req.body);
+    res.status(201).json(newTable);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating table' });
+  }
 });
 
-router.put('/:number', authMiddleware, (req, res) => {
-  const { number } = req.params;
-  const index = tables.findIndex(t => t.number === number);
-  if (index !== -1) {
-    tables[index] = { ...tables[index], ...req.body };
-    res.json(tables[index]);
-  } else {
-    res.status(404).json({ message: 'Table not found' });
+router.put('/:number', authMiddleware, async (req, res) => {
+  try {
+    const updatedTable = await tableService.updateTable(req.params.number, req.body);
+    if (updatedTable) {
+      res.json(updatedTable);
+    } else {
+      res.status(404).json({ message: 'Table not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating table' });
   }
 });
 
 export default router;
+

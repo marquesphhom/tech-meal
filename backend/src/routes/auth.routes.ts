@@ -1,22 +1,32 @@
 import { Router } from 'express';
-import jwt from 'jsonwebtoken';
-import { users } from '../data/mockData';
+import * as authService from '../services/auth.service';
 
 const router = Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
-  // Mock authentication
-  const user = users.find(u => u.username === username);
-  
-  if (user && password === 'admin123') { // Hardcoded password for mock
-    const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-    return res.json({ token, user: { id: user.id, username: user.username, role: user.role } });
-  }
+  try {
+    const result = await authService.login(username, password);
 
-  res.status(401).json({ message: 'Invalid credentials' });
+    if (result) {
+      return res.json(result);
+    } else {
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error during login' });
+  }
+});
+
+router.post('/register', async (req, res) => {
+  try {
+    const user = await authService.register(req.body);
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error registering user' });
+  }
 });
 
 export default router;
+
