@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: tech-meal-db
+    environment:
+      POSTGRES_USER: tech_user
+      POSTGRES_PASSWORD: tech_password
+      POSTGRES_DB: tech_meal
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: tech-meal-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DATABASE_URL=postgresql://tech_user:tech_password@postgres:5432/tech_meal
+      - JWT_SECRET=your_jwt_secret_key
+      - NODE_ENV=development
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: ./frontend
+    container_name: tech-meal-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://187.72.164.173:5000/api
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
