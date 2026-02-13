@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, JoinColumn, RelationId } from "typeorm";
 import { Product } from "./Product";
 import { TechnicalSheetItem } from "./TechnicalSheetItem";
 
@@ -17,7 +17,7 @@ export class TechnicalSheet {
   @JoinColumn()
   product: Product;
 
-  @Column({ nullable: true })
+  @RelationId((sheet: TechnicalSheet) => sheet.product)
   productId: string;
 
   @OneToMany(() => TechnicalSheetItem, (item) => item.technicalSheet, { cascade: true })
