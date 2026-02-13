@@ -94,18 +94,34 @@ export const AdminTechnicalSheets = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nome da Ficha</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Produto Vinculado</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Custo Total</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Preço Venda</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Margem (MC)</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Ações</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {sheets.map((item) => {
               const product = products.find(p => p.id === item.productId);
+              const totalCost = calculateTotal(item);
+              const salePrice = product?.price || 0;
+              const marginValue = salePrice - totalCost;
+              const marginPercentage = salePrice > 0 ? (marginValue / salePrice) * 100 : 0;
+
               return (
                 <tr key={item.id} className="hover:bg-gray-50 transition">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product?.name || 'Não vinculado'}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-primary-600">
-                    {calculateTotal(item).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    {totalCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {salePrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <div className={`font-bold ${marginPercentage > 30 ? 'text-green-600' : 'text-orange-600'}`}>
+                      {marginValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+                    <div className="text-xs text-gray-500">{marginPercentage.toFixed(2)}%</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
                     <button onClick={() => { setSelectedSheet(item); setIsModalOpen(true); }} className="text-blue-600 hover:text-blue-900">
