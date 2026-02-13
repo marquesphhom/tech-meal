@@ -151,7 +151,9 @@ export const AdminTechnicalSheets = () => {
                     className="mt-1 block w-full border rounded-md p-2"
                   >
                     <option value="">Selecione um produto</option>
-                    {products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                    {products
+                      .filter(p => !sheets.some(s => s.productId === p.id && s.id !== selectedSheet?.id))
+                      .map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                   </select>
                 </div>
               </div>
