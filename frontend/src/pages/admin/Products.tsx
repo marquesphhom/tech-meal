@@ -135,10 +135,18 @@ export const AdminProducts = () => {
                     <tr key={i}>
                       <td className="p-2 border">{ing.name}</td>
                       <td className="p-2 border">{ing.quantity}</td>
-                      <td className="p-2 border">R$ {ing.cost}</td>
+                      <td className="p-2 border">{ing.cost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                     </tr>
                   ))}
                 </tbody>
+                <tfoot>
+                  <tr className="bg-gray-50 font-bold">
+                    <td colSpan={2} className="p-2 border text-right">Custo Total:</td>
+                    <td className="p-2 border text-primary-600">
+                      {selectedProduct?.technicalSheet?.ingredients.reduce((acc: number, ing: any) => acc + ing.cost, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
               <div className="mt-4">
                 <h3 className="font-semibold">Observações:</h3>
